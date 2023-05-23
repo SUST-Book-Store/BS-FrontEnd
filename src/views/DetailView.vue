@@ -11,12 +11,15 @@
                     <div class="item1" style="font-size: 14px;">{{ book.description }}</div>
                     <div class="item1" style="color: orangered;">价格 ￥ {{ book.price }}</div>
                     <div class="item1" style="font-size: 14px;">库存  {{ book.stock }} <span style="margin-left: 10px;">本</span></div>
+                    <div class="item1" v-if="book.stock < 1">
+                        <span style="color:red; font-weight:700;">库存不足，请联系管理员</span> 
+                    </div>
                     <div class="item1">
-                        <el-input-number v-model="form.amount" :min="1" :max="100" label="数量"></el-input-number>
+                        <el-input-number v-model="form.amount" :min="1" :max=book.stock label="数量"></el-input-number>
                         <span style="margin-left: 10px;">本</span>
                     </div>
                     <div class="item1" style="margin-top: 20px;">
-                        <el-button style="background-color: red; color: white"><i class="el-icon-shopping-cart-2"></i> 直接购买</el-button>
+                        <el-button @click="addOrder" style="background-color: red; color: white"><i class="el-icon-shopping-cart-2"></i> 直接购买</el-button>
                         <el-button style="background-color: red; color: white" v-on:click="addCart">加入购物车</el-button>
                     </div>
                 </div>
@@ -28,6 +31,7 @@
 <script>
 import axios from 'axios'
 import NavBar from '@/components/NavBar.vue'
+import { ElMessage } from 'element-plus'
 export default {
     components: {
         NavBar
@@ -46,16 +50,26 @@ export default {
         load() {
             axios.get("http://127.0.0.1:3000/books/detail/" + this.id).then(res => {
                 this.book = res.data.data
-                console.log(this.book);
+            })
+        },
+        addOrder() {
+            let data = {bookId: this.book.bookId, amount: this.form.amount, price: this.book.price}
+            console.log(data);
+            axios.post("http://127.0.0.1:3000/order/detail/add", data).then(res => {
+                if (res.data.success) {
+                    ElMessage.success("已加入订单");
+                } else {
+                    ElMessage.error(res.data.errorMsg);
+                }
             })
         },
         addCart() {
             this.form.bookId = this.book.bookId //商品id
             axios.post("http://127.0.0.1:3000/cart/add", this.form).then(res => {
-                if (res.code == "200"){
-                    console.log(res);
+                if (res.data.success){
+                    ElMessage.success("加入购物车成功");
                 } else {
-                    
+                    ElMessage.error(res.data.errorMsg);
                 }
             })
         }

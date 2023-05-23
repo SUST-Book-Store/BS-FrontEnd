@@ -7,6 +7,7 @@ import UserLoginView from "@/views/UserLoginView.vue"
 import UserRegisterView from "@/views/UserRegisterView.vue"
 import NotFound from "@/views/NotFound.vue"
 import DetailView from "@/views/DetailView.vue"
+import OrderDetailView from "@/views/OrderDetailView.vue"
 
 const routes = [
   {
@@ -48,6 +49,11 @@ const routes = [
     path: "/book/detail/",
     name: "book_detail_index",
     component: DetailView
+  },
+  {
+    path: "/order/detail/",
+    name: "order_detail_index",
+    component: OrderDetailView
   },
   {
     path: "/404/",

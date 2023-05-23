@@ -32,17 +32,7 @@
                     <el-table-column prop="time" label="添加时间"></el-table-column>
                     <el-table-column label="操作" width="120">
                         <template v-slot="scope" >
-                            <el-button type="danger" @click="handleEdit(scope.row)">删除</el-button>
-                            <el-popconfirm
-                            class="ml-5"
-                            confirm-button-text="确定"
-                            cancel-button-text="我再想想"
-                            icon="el-icon-info"
-                            icon-color="red"
-                            title="您确定删除吗"
-                            @confirm="del(scope.row.cartId)"
-                            >
-                        </el-popconfirm>
+                            <el-button type="danger" @click="showDeleteDialog(scope.row.cartId)">删除</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -71,6 +61,7 @@
 import NavBar from '@/components/NavBar.vue';
 import ContentField from '@/components/ContentField.vue';
 import axios from 'axios';
+import { ElMessage } from 'element-plus';
 export default {
     components: {
         NavBar,
@@ -85,7 +76,6 @@ export default {
       name: "",
       total: 0,
       form: {},
-      dialogFormVisible: false,
       multipleSelection: []
     }
     },
@@ -105,35 +95,43 @@ export default {
                 this.total = res.data.total;
             })
         },
+        showDeleteDialog(cartId) {
+            this.$confirm('确定删除该订单吗？', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+            }).then(() => {
+            // 点击确定按钮后调用删除函数
+            this.del(cartId);
+            }).catch(() => {
+            // 取消删除操作
+            });
+        },
         calculate() {
             if (!this.multipleSelection.length) {
-                console.log("请选择结算的书籍");
+                ElMessage.error("请选择结算的书籍");
                 return;
             }
             let data = {totalPrice: this.totalPrice, carts: this.multipleSelection};
             console.log(data);
-            axios.post("http://127.0.0.1:3000/order/add", data).then(res => {
+            axios.post("http://127.0.0.1:3000/order/cart/add", data).then(res => {
                 if (res.data.success) {
-                    console.log("下单成功");
+                    ElMessage.success("下单成功");
                     this.load();
                 } else {
-                    console.log(res);
+                    ElMessage.error(res.data.errorMsg);
                 }
             })
         },
         del(id) {
-            axios.post("/cart/" + id).then(res => {
-                if (res.code == '200') {
-                    console.log("删除成功");
+            axios.post("http://127.0.0.1:3000/cart/" + id).then(res => {
+                if (res.data.success) {
+                    ElMessage.success("删除成功")
+                    this.load();
                 } else {
-                    console.log("删除失败")
+                    ElMessage.error("删除失败")
                 }
             })
-        },
-        handleEdit(row) {
-            this.dialogFormVisible = true;
-            this.form = {};
-
         },
         changeAmount(row) {
             axios.post("http://127.0.0.1:3000/cart/update", JSON.parse(JSON.stringify(row))).then(res => {
