@@ -14,7 +14,7 @@
     <content-field>
         <div class="container" style="margin-bottom: 50px;">
             <div style="width: 50%" class="unique-carousel">
-                <el-carousel height="200px" :interval="1000" style="cursor: pointer;">
+                <el-carousel height="200px" :interval="5000" style="cursor: pointer;">
                     <el-carousel-item v-for="item in imgs" :key="item">
                         <ElImage :src="require('../assets/images/' + item + '.jpg')" alt="picture" fit="cover"></ElImage>
                     </el-carousel-item>

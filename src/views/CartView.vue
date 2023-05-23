@@ -15,7 +15,7 @@
                     <el-table-column type="selection" width="55"></el-table-column>
                     <el-table-column prop="bookId" label="商品图片">
                         <template v-slot="scope">
-                            <el-image style="width: 100px" :src="scope.row.photo" :preview-src-list="[scope.row.photo]"></el-image>
+                            <el-image @click="$router.push('/book/detail?id=' + scope.row.bookId)" style="width: 100px" :src="scope.row.photo" :preview-src-list="[scope.row.photo]"></el-image>
                         </template>
                     </el-table-column>
                     <el-table-column prop="name" label="书名"></el-table-column>
