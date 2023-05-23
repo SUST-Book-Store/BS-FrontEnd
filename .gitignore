@@ -1,0 +1,34 @@
+# 此为 Vue 项目的 .gitignore 文件
+
+# 构建输出目录
+/dist/
+
+# 依赖安装目录
+/node_modules/
+
+# 生产环境配置文件
+.env.production
+
+# 开发环境配置文件
+.env.development
+
+# 开发环境配置文件示例
+.env.local
+
+# 日志文件
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 编辑器配置文件
+.idea/
+.vscode/
+*.sublime-*
+*.swp
+*.swo
+
+# macOS 系统文件
+.DS_Store
+
+# 缓存文件
+/.cache/
