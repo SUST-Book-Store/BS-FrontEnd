@@ -24,8 +24,8 @@
         <hr>
         <div>
             <el-row :gutter="10">
-                <el-col :span="6" v-for="item in tableData" :key="item.bookId" style="margin-bottom: 10px">
-                    <div style="border: 1px solid #ccc; padding-bottom: 10px; border-radius: 10px; overflow: hidden">
+                <el-col :span="6" v-for="item in tableData" :key="item.bookId" style="display: table; margin-bottom: 10px">
+                    <div style="display: table-cell; border: 1px solid #ccc; padding-bottom: 10px; border-radius: 10px; overflow: hidden">
                         <img :src="item.photo" alt="" style="width: 100%; cursor: pointer;" @click="$router.push('/book/detail?id=' + item.bookId)">
                         <div style="color: #666; padding: 5px; font-size: 18px; cursor: pointer;" @click="$router.push('/book/detail?id=' + item.bookId)">{{ item.name }}</div>
                         <div style="color: #666; padding: 5px; font-size: 14px;">{{ item.description }}</div>
@@ -113,6 +113,7 @@ export default {
 </script>
 
 <style scoped>
+
 .bar {background: #A3D0C3;}
 .input {
     margin: auto;
