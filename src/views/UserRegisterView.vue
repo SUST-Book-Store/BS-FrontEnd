@@ -114,7 +114,7 @@ export default {
             ElMessage.error("两次密码输入不一致")
             return
           }
-          request.post("http://127.0.0.1:3000/register",this.form).then(res=>{
+          request.post("http://127.0.0.1:3000/user/register",this.form).then(res=>{
             if(res.data.status == 0)
             {
               ElMessage.success("注册成功")

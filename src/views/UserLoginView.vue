@@ -63,10 +63,11 @@ export default {
     login(){
       this.$refs['form'].validate((valid) => {
         if (valid) {
-          request.post("http://127.0.0.1:3000/login", this.form).then(res => {
+          request.post("http://127.0.0.1:3000/user/login", this.form).then(res => {
             if (res.data.status == 0) {
               ElMessage.success("登录成功")
-              sessionStorage.setItem("user", JSON.stringify(res.data.accessToken))//缓存用户信息
+              sessionStorage.setItem("token", res.data.accessToken)//缓存用户信息
+            //   this.$_setStorage({Authorization: res.data.accessToken});
               this.$router.push("/")
             } else {
               ElMessage.error(res.data.msg)
