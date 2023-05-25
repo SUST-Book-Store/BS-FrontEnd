@@ -60,7 +60,7 @@
 <script>
 import NavBar from '@/components/NavBar.vue';
 import ContentField from '@/components/ContentField.vue';
-import axios from 'axios';
+import request from "../utils/request";
 import { ElMessage } from 'element-plus';
 export default {
     components: {
@@ -84,7 +84,7 @@ export default {
     },
     methods: {
         load() {
-            axios.get("http://127.0.0.1:3000/cart/page", {
+            request.get("http://127.0.0.1:3000/cart/page", {
                 params: {
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,
@@ -114,7 +114,7 @@ export default {
             }
             let data = {totalPrice: this.totalPrice, carts: this.multipleSelection};
             console.log(data);
-            axios.post("http://127.0.0.1:3000/order/cart/add", data).then(res => {
+            request.post("http://127.0.0.1:3000/order/cart/add", data).then(res => {
                 if (res.data.success) {
                     ElMessage.success("下单成功");
                     this.load();
@@ -124,7 +124,7 @@ export default {
             })
         },
         del(id) {
-            axios.post("http://127.0.0.1:3000/cart/" + id).then(res => {
+            request.post("http://127.0.0.1:3000/cart/" + id).then(res => {
                 if (res.data.success) {
                     ElMessage.success("删除成功")
                     this.load();
@@ -134,7 +134,7 @@ export default {
             })
         },
         changeAmount(row) {
-            axios.post("http://127.0.0.1:3000/cart/update", JSON.parse(JSON.stringify(row))).then(res => {
+            request.post("http://127.0.0.1:3000/cart/update", JSON.parse(JSON.stringify(row))).then(res => {
                 //this.load();
                 this.totalPrice = 0;
                 this.multipleSelection.forEach(item => {

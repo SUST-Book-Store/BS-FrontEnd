@@ -56,7 +56,7 @@
 <script>
 import NavBar from '@/components/NavBar.vue'
 import ContentField from '../components/ContentField.vue'
-import axios from 'axios';
+import request from "../utils/request";
     
 export default {
     components: {
@@ -84,7 +84,7 @@ export default {
 
     methods: {
         load() {
-            axios.get("http://127.0.0.1:3000/books/page", {
+            request.get("http://127.0.0.1:3000/books/page", {
                 params: {
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,

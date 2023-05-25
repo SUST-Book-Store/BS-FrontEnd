@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import request from "../utils/request";
 import NavBar from '@/components/NavBar.vue'
 import { ElMessage } from 'element-plus'
 export default {
@@ -40,7 +40,7 @@ export default {
     },
     methods: {
         load() {
-            axios.get("http://127.0.0.1:3000/order/get/" + this.id).then(res => {
+            request.get("http://127.0.0.1:3000/order/get/" + this.id).then(res => {
                 if (res.data.success) {
                     var orderInfo = res.data.data;
                     for(var i = 0; i < orderInfo.length; i ++) {

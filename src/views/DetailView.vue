@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import request from "../utils/request";
 import NavBar from '@/components/NavBar.vue'
 import { ElMessage } from 'element-plus'
 export default {
@@ -56,7 +56,7 @@ export default {
     },
     methods: {
         load() {
-            axios.get("http://127.0.0.1:3000/books/detail/" + this.id).then(res => {
+            request.get("http://127.0.0.1:3000/books/detail/" + this.id).then(res => {
                 this.book = res.data.data
                 console.log(this.book.detail);
                 this.photos = this.book.detail.split(";");
@@ -67,7 +67,7 @@ export default {
         addOrder() {
             let data = {bookId: this.book.bookId, amount: this.form.amount, price: this.book.price}
             console.log(data);
-            axios.post("http://127.0.0.1:3000/order/detail/add", data).then(res => {
+            request.post("http://127.0.0.1:3000/order/detail/add", data).then(res => {
                 if (res.data.success) {
                     ElMessage.success("已加入订单");
                 } else {
@@ -77,7 +77,7 @@ export default {
         },
         addCart() {
             this.form.bookId = this.book.bookId //商品id
-            axios.post("http://127.0.0.1:3000/cart/add", this.form).then(res => {
+            request.post("http://127.0.0.1:3000/cart/add", this.form).then(res => {
                 if (res.data.success){
                     ElMessage.success("加入购物车成功");
                 } else {

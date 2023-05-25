@@ -38,7 +38,7 @@ request.interceptors.request.use(config => {
 
     // config.headers['token'] = user.token;  // 设置请求头
     //取出sessionStorage里面缓存的用户信息
-    let userToken = sessionStorage.getItem("token")
+    let userToken = localStorage.getItem("token")
     if(userToken === 'null' || userToken === '' || userToken === undefined)
     {
         router.push("/user/login/")

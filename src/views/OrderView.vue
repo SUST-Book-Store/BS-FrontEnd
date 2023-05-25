@@ -52,7 +52,7 @@
 <script>
 import NavBar from '@/components/NavBar.vue'
 import ContentField from '@/components/ContentField.vue'
-import axios from 'axios'
+import request from "../utils/request";
 import { ElMessage } from 'element-plus'
 export default {
     components: {
@@ -75,7 +75,7 @@ export default {
     },
     methods: {
       load() {
-        axios.get("http://127.0.0.1:3000/order/page",{
+        request.get("http://127.0.0.1:3000/order/page",{
             params:{
               pageNum: this.pageNum,
               pageSize: this.pageSize,
@@ -102,7 +102,7 @@ export default {
        // 取消订单函数
       cancelOrder(orderId) {
         // 取消订单
-        axios.get("http://127.0.0.1:3000/order/cancel/" + orderId).then(res => {
+        request.get("http://127.0.0.1:3000/order/cancel/" + orderId).then(res => {
           if (res.data.success) {
             ElMessage.success("该订单已取消");
             this.load();
@@ -112,7 +112,7 @@ export default {
         })
       },
       lookOrder(orderId) {
-        axios.get("http://127.0.0.1:3000/order/get/" + orderId).then(res  => {
+        request.get("http://127.0.0.1:3000/order/get/" + orderId).then(res  => {
           if (res.data.success) {
             this.orderInfo = res.data.data;
             console.log(this.orderInfo);
