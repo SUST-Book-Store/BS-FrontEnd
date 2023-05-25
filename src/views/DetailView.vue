@@ -26,6 +26,13 @@
             </div>
         </el-card>
     </div>
+    <div style="padding: 10px; width: 50%; margin: auto">
+        <el-card v-if="photos.length > 1" style="width: 100%">
+            <tr v-for="one in photos" :key="one" style="width: 100%; height: 100%;">
+                <td><img :src="one" style="width: 100%; height: 100%; object-fit: contain;"/></td>
+            </tr>
+        </el-card>
+    </div>
 </template>
 
 <script>
@@ -41,6 +48,7 @@ export default {
             id: this.$route.query.id,
             book: {},
             form: { amount: 1},
+            photos: []
         }
     },
     created() {
@@ -50,6 +58,10 @@ export default {
         load() {
             axios.get("http://127.0.0.1:3000/books/detail/" + this.id).then(res => {
                 this.book = res.data.data
+                console.log(this.book.detail);
+                this.photos = this.book.detail.split(";");
+                console.log(this.photos);
+                console.log(this.book);
             })
         },
         addOrder() {
