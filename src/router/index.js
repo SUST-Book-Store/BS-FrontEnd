@@ -38,12 +38,34 @@ const routes = [
   {
     path: "/user/login/",
     name: "user_login_index",
-    component: UserLoginView
+    component: UserLoginView,
+    beforeEnter: (to, from, next) => {
+    // 判断用户是否已登录
+    const isLogin = localStorage.getItem('token')
+    if (isLogin) {
+      // 如果已登录，则自动跳转到首页
+      next({ path: '/' })
+    } else {
+      // 如果未登录，则继续进入登录页
+      next()
+    }
+  }
   },
   {
     path: "/user/register/",
     name: "user_register_index",
-    component: UserRegisterView
+    component: UserRegisterView,
+    beforeEnter: (to, from, next) => {
+    // 判断用户是否已登录
+    const isLogin = localStorage.getItem('token')
+    if (isLogin) {
+      // 如果已登录，则自动跳转到首页
+      next({ path: '/' })
+    } else {
+      // 如果未登录，则继续进入登录页
+      next()
+    }
+  }
   },
   {
     path: "/book/detail/",

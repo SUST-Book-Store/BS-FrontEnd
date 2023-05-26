@@ -20,7 +20,7 @@
             <ul class="navbar-nav">
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    用户名
+                    欢迎您，{{ user.username }}
                 </a>
                 <ul class="dropdown-menu">
                     <li>
@@ -52,8 +52,16 @@
     import { useRoute } from 'vue-router';
     import { computed } from 'vue';
     import { useStore } from 'vuex';
-    
+    import { mapMutations, mapState } from "vuex";
+
     export default {
+        computed: {
+            ...mapState(['user'])
+            
+        },
+        methods: {
+            ...mapMutations(['logout'])
+        },
         setup() {
           const store = useStore();
           const route = useRoute();

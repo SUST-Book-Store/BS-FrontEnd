@@ -28,6 +28,7 @@
 <script>
 import request from "../utils/request";
 import {ElMessage} from "element-plus";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   name: "Login",
@@ -59,16 +60,49 @@ export default {
 
     }
   },
+  computed: {
+    ...mapState(['user'])
+  },
   methods: {
+    ...mapMutations(['setUserInfo', 'updateToken', 'logout']),
+  
+  // 示例方法：更新用户信息
+  updateUserInfo(userInfo) {
+    this.setUserInfo(userInfo);
+  },
+  
+  // 示例方法：更新token
+  updateToken(token) {
+    this.updateToken(token);
+  },
+  
+  // 示例方法：登出
+  logoutUser() {
+    this.logout();
+  },
+
     login(){
       this.$refs['form'].validate((valid) => {
         if (valid) {
           request.post("http://127.0.0.1:3000/user/login", this.form).then(res => {
             if (res.data.status == 0) {
-              ElMessage.success("登录成功")
               localStorage.setItem("token", res.data.accessToken)//缓存用户信息
-            //   this.$_setStorage({Authorization: res.data.accessToken});
-              this.$router.push("/")
+              request.get("http://127.0.0.1:3000/user/getUserInfo").then(res2 => {
+                if (res2.data.code == 0) {
+                    const newUser = {
+                        user_id: res2.data.data.user_id,
+                        username: res2.data.data.username,
+                        token: res.data.accessToken,
+                        is_admin: res2.data.data.is_admin
+                    }
+                    this.updateUserInfo(newUser);
+                    ElMessage.success("登录成功")
+                    this.$router.push("/")
+                } else {
+                    localStorage.removeItem("token")
+                    ElMessage.error("登录失败")
+                }
+              })
             } else {
               ElMessage.error(res.data.msg)
             }
