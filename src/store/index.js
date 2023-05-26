@@ -1,5 +1,5 @@
-import { Store, createStore } from 'vuex'
-import { useRouter } from 'vue-router';
+import { createStore } from 'vuex'
+import createPersistedState from 'vuex-persistedstate';
 
 export default createStore({
     state: {
@@ -38,5 +38,6 @@ export default createStore({
             context.commit("logout");
         },
     },
-    modules: {}
+    modules: {},
+    plugins: [createPersistedState()]
 })
