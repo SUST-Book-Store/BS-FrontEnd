@@ -7,6 +7,8 @@ export default createStore({
             user_id: -1,
             username: "请先登录",
             token: "",
+            phone: "",
+            sex: "",
             is_admin: false,
             is_login: false
         }
@@ -17,6 +19,8 @@ export default createStore({
         setUserInfo (state, userInfo) {
             state.user.user_id = userInfo.user_id,
             state.user.username = userInfo.username,
+            state.user.phone = userInfo.phone,
+            state.user.sex = userInfo.sex,
             state.user.token = userInfo.token,
             state.user.is_admin = userInfo.is_admin,
             state.user.is_login = userInfo.is_login
@@ -28,8 +32,9 @@ export default createStore({
         logout(state) {
             state.user.id = -1;
             state.user.username = "请先登录";
+            state.user.phone = "";
+            state.user.sex = "";
             state.user.token = "";
-            state.user.is_admin = false;
             state.user.is_login = false
         },
     },
