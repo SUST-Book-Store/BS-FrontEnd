@@ -1,5 +1,6 @@
 import axios from 'axios'
 import router from "../router";
+import {ElMessage} from "element-plus";
 
 const request = axios.create({
     baseURL: '/',
@@ -50,7 +51,7 @@ request.interceptors.request.use(config => {
     return Promise.reject(error)
 });
 
-axios.interceptors.response.use(
+request.interceptors.response.use(
   response => {
     return response;
   },
@@ -58,6 +59,7 @@ axios.interceptors.response.use(
     if(error.response){
       switch(error.response.status){
         case 401:
+          ElMessage.error('未授权，请先登录');
           sessionStorage.removeItem('token');
           router.replace({
             path: '/user/login',
