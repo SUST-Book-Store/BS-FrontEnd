@@ -93,7 +93,8 @@ export default {
                         user_id: res2.data.data.user_id,
                         username: res2.data.data.username,
                         token: res.data.accessToken,
-                        is_admin: res2.data.data.is_admin
+                        is_admin: res2.data.data.is_admin,
+                        is_login: true
                     }
                     this.updateUserInfo(newUser);
                     ElMessage.success("登录成功")
