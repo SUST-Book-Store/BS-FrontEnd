@@ -51,7 +51,6 @@
     <script>
     import { useRoute } from 'vue-router';
     import { computed } from 'vue';
-    import { useStore } from 'vuex';
     import { mapMutations, mapState } from "vuex";
 
     export default {
@@ -60,19 +59,17 @@
             
         },
         methods: {
-            ...mapMutations(['logout'])
+            ...mapMutations(['logout']),
+          logout() {
+            this.$store.dispatch("logout");
+            this.$router.push('/');
+          }
         },
         setup() {
-          const store = useStore();
           const route = useRoute();
-          let route_name = computed(() => route.name)
-          
-          const logout = () => {
-            store.dispatch("logout");
-          }
+          let route_name = computed(() => route.name);
           return {
             route_name,
-            logout
           }
         }
     }
