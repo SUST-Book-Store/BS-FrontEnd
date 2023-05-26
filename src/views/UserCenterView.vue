@@ -199,7 +199,6 @@ export default {
         handleClick(tab, event) {
             console.log(tab, event);
         },
-        // 示例方法：更新用户信息
         updateUserInfo(userInfo) {
             this.setUserInfo(userInfo);
         },
@@ -214,6 +213,16 @@ export default {
                         .then((res) => {
                             if (res.data.code == 0) {
                                 ElMessage.success("修改成功");
+                                const newUser = {
+                                    user_id: this.user.user_id,
+                                    username: this.form.username,
+                                    token: this.user.token,
+                                    phone: this.form.phone,
+                                    sex: this.form.sex,
+                                    is_admin: this.user.is_admin,
+                                    is_login: true
+                                };
+                                this.updateUserInfo(newUser);
                             } else {
                                 ElMessage.error(res.data.msg);
                             }
