@@ -81,9 +81,11 @@ export default {
               pageSize: this.pageSize,
             }
         }).then(res => {
-          this.tableData = res.data.data;
-          this.total = res.data.total;
-          console.log(this.tableData);
+          if (res != null) {
+            this.tableData = res.data.data;
+            this.total = res.data.total;
+            console.log(this.tableData);
+          }
         })
       },
        // 显示删除提示框

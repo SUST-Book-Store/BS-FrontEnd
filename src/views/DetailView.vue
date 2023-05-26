@@ -68,20 +68,24 @@ export default {
             let data = {bookId: this.book.bookId, amount: this.form.amount, price: this.book.price}
             console.log(data);
             request.post("http://127.0.0.1:3000/order/detail/add", data).then(res => {
-                if (res.data.success) {
+                if (res != null) {
+                    if (res.data.success) {
                     ElMessage.success("已加入订单");
-                } else {
-                    ElMessage.error(res.data.errorMsg);
+                    } else {
+                        ElMessage.error(res.data.errorMsg);
+                    }
                 }
             })
         },
         addCart() {
             this.form.bookId = this.book.bookId //商品id
             request.post("http://127.0.0.1:3000/cart/add", this.form).then(res => {
-                if (res.data.success){
+                if (res != null) {
+                    if (res.data.success){
                     ElMessage.success("加入购物车成功");
                 } else {
                     ElMessage.error(res.data.errorMsg);
+                }
                 }
             })
         }

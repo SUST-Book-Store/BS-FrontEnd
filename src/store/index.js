@@ -29,6 +29,7 @@ export default createStore({
             state.user.id = -1;
             state.user.username = "请先登录";
             state.user.token = "";
+            state.user.is_admin = false;
             state.user.is_login = false
         },
     },

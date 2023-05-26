@@ -91,8 +91,10 @@ export default {
                     name: this.name,
                 }
             }).then(res => {
-                this.tableData = res.data.data;
-                this.total = res.data.total;
+                if (res != null) {
+                    this.tableData = res.data.data;
+                    this.total = res.data.total;
+                }
             })
         },
         showDeleteDialog(cartId) {
