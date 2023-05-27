@@ -29,6 +29,9 @@
             <el-form-item
                 ><el-button type="text" @click="$router.push('/user/register/')"
                     >前往注册 >>
+                </el-button>
+                <el-button type="text" style="margin-left: 100px;" @click="$router.push('/')"
+                    >前往首页 >>
                 </el-button></el-form-item
             >
         </el-form>

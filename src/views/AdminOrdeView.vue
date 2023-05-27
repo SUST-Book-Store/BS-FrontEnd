@@ -3,7 +3,13 @@
         <el-container style="height: 700px; border: 1px solid #eee">
             <el-header
                 style="font-size: 40px; background-color: rgb(238, 241, 246)"
-                >网上书店管理系统后台</el-header
+                >网上书店管理系统后台
+                <el-button
+                    type="text"
+                    style="font-size: large; margin-left: 800px"
+                    @click="$router.push('/')"
+                    >前往首页 >>
+                </el-button></el-header
             >
             <el-container>
                 <el-aside width="230px" style="border: 1px solid #eee">
