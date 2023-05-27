@@ -83,28 +83,28 @@ const routes = [
     component: OrderDetailView
   },
   {
-    path: "/useradmin",
+    path: "/admin/manageUser",
     name: "useradmin",
     component: AdminUser
   },
   {
-    path: '/adminindex',
+    path: '/admin/index',
     name: 'adminindex',
     component:AdminBookView
   },
   {
-    path: "/EditBook",
+    path: "/admin/editBook",
     name: "EditBook",
     component: EditBookView,
     props: true
   },
   {
-    path: "/orderadmin",
+    path: "/admin/manageOrder",
     name: "AdminOrder",
     component: AdminOrdeView,
   },
   {
-    path: "/AddBook",
+    path: "/admin/addBook",
     name: "AddBook",
     component: AddBookView,
   },

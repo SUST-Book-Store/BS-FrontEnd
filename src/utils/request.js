@@ -1,6 +1,7 @@
 import axios from 'axios'
 import router from "../router";
 import {ElMessage} from "element-plus";
+import store from '@/store';
 
 const request = axios.create({
     baseURL: '/',
@@ -36,6 +37,14 @@ const request = axios.create({
 // 比如统一加token，对请求参数统一加密
 request.interceptors.request.use(config => {
     config.headers['Content-Type'] = 'application/json;charset=utf-8';
+    // 判断url是否包含admin/，如果是则跳转首页
+    if (config.url.includes("admin/")) {
+        if (!store.state.user.is_admin){
+            ElMessage.error("你没有权限")
+            router.push("/");
+        }
+        
+    }
 
     // config.headers['token'] = user.token;  // 设置请求头
     //取出sessionStorage里面缓存的用户信息
