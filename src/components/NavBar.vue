@@ -23,6 +23,9 @@
                     欢迎您，{{ user.username }}
                 </a>
                 <ul class="dropdown-menu">
+                    <li v-if="$store.state.user.is_admin">
+                      <router-link class="dropdown-item" :to="{name: 'adminindex'}">管理中心</router-link>
+                    </li>
                     <li>
                       <router-link class="dropdown-item" :to="{name: 'user_center_index'}">个人中心</router-link>
                     </li>

@@ -94,6 +94,9 @@ export default {
                 console.log(res);
                 this.tableData = res.data.data.records
                 this.total = res.data.data.total
+                for(var i = 0; i < this.tableData.length; i ++) {
+                    this.tableData[i].name = this.tableData[i].name.substring(0,15) + "......";
+                }
             }).catch(error => {
                 console.error(error);
             });

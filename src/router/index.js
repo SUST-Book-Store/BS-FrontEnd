@@ -8,6 +8,11 @@ import UserRegisterView from "@/views/UserRegisterView.vue"
 import NotFound from "@/views/NotFound.vue"
 import DetailView from "@/views/DetailView.vue"
 import OrderDetailView from "@/views/OrderDetailView.vue"
+import AdminBookView from "@/views/AdminBookView.vue"
+import EditBookView from '@/views/EditBookView.vue'
+import AdminUser from '@/views/AdminUser'
+import AddBookView from '@/views/AddBookView'
+import AdminOrdeView from '@/views/AdminOrdeView'
 
 const routes = [
   {
@@ -76,6 +81,32 @@ const routes = [
     path: "/order/detail/",
     name: "order_detail_index",
     component: OrderDetailView
+  },
+  {
+    path: "/useradmin",
+    name: "useradmin",
+    component: AdminUser
+  },
+  {
+    path: '/adminindex',
+    name: 'adminindex',
+    component:AdminBookView
+  },
+  {
+    path: "/EditBook",
+    name: "EditBook",
+    component: EditBookView,
+    props: true
+  },
+  {
+    path: "/orderadmin",
+    name: "AdminOrder",
+    component: AdminOrdeView,
+  },
+  {
+    path: "/AddBook",
+    name: "AddBook",
+    component: AddBookView,
   },
   {
     path: "/404/",
