@@ -129,6 +129,8 @@ import NavBar from "@/components/NavBar.vue";
 import ContentField from "@/components/ContentField.vue";
 import request from "../utils/request";
 import { ElMessage } from "element-plus";
+import config from "@/config";
+
 export default {
     components: {
         NavBar,
@@ -152,7 +154,7 @@ export default {
     methods: {
         load() {
             request
-                .get("http://127.0.0.1:3000/cart/page", {
+                .get(config.api_url + "/cart/page", {
                     params: {
                         pageNum: this.pageNum,
                         pageSize: this.pageSize,
@@ -191,7 +193,7 @@ export default {
             };
             console.log(data);
             request
-                .post("http://127.0.0.1:3000/order/cart/add", data)
+                .post(config.api_url + "/order/cart/add", data)
                 .then((res) => {
                     if (res.data.success) {
                         ElMessage.success("下单成功");
@@ -202,7 +204,7 @@ export default {
                 });
         },
         del(id) {
-            request.post("http://127.0.0.1:3000/cart/" + id).then((res) => {
+            request.post(config.api_url + "/cart/" + id).then((res) => {
                 if (res.data.success) {
                     ElMessage.success("删除成功");
                     this.load();
@@ -214,10 +216,10 @@ export default {
         changeAmount(row) {
             request
                 .post(
-                    "http://127.0.0.1:3000/cart/update",
+                    config.api_url + "/cart/update",
                     JSON.parse(JSON.stringify(row))
                 )
-                .then((res) => {
+                .then(() => {
                     //this.load();
                     this.totalPrice = 0;
                     this.multipleSelection.forEach((item) => {
@@ -252,5 +254,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

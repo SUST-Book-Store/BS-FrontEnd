@@ -8,7 +8,7 @@
             margin-top: 5%;
         "
     >
-        <el-card style="width: 40%">
+        <el-card style="width: 80%">
             <h2 style="padding: 30px">个人中心</h2>
             <el-tabs v-model="activeName" @tab-click="handleClick">
                 <el-tab-pane label="个人信息" name="first">
@@ -54,37 +54,31 @@
                         <el-form-item prop="origpass" label="原密码">
                             <el-input
                                 v-model="passForm.origpass"
+                                :prefix-icon="Unlock"
                                 placeholder="请输入原密码"
                                 clearable
                                 show-password
                             >
-                                <template #prefix>
-                                    <el-icon class="el-input__icon">🔒</el-icon>
-                                </template>
                             </el-input>
                         </el-form-item>
                         <el-form-item prop="password" label="新密码">
                             <el-input
                                 v-model="passForm.password"
+                                :prefix-icon="Lock"
                                 placeholder="请输入新密码"
                                 clearable
                                 show-password
                             >
-                                <template #prefix>
-                                    <el-icon class="el-input__icon">🔒</el-icon>
-                                </template>
                             </el-input>
                         </el-form-item>
                         <el-form-item prop="confirm" label="确认密码">
                             <el-input
                                 v-model="passForm.confirm"
+                                :prefix-icon="Lock"
                                 placeholder="请确认新密码"
                                 clearable
                                 show-password
                             >
-                                <template #prefix>
-                                    <el-icon class="el-input__icon">🔒</el-icon>
-                                </template>
                             </el-input>
                         </el-form-item>
                     </el-form>
@@ -105,9 +99,14 @@ import NavBar from "@/components/NavBar.vue";
 import request from "../utils/request";
 import { ElMessage } from "element-plus";
 import { mapMutations, mapState, useStore } from "vuex";
+import { Lock, Unlock, User } from "@element-plus/icons-vue";
+import config from "@/config";
 
 export default {
     name: "UserCenter",
+    setup() {
+        return { Lock, Unlock, User };
+    },
     components: {
         NavBar
     },
@@ -207,7 +206,7 @@ export default {
                 if (valid) {
                     request
                         .post(
-                            "http://127.0.0.1:3000/user/changeUserInfo",
+                            config.api_url + "/user/changeUserInfo",
                             this.form
                         )
                         .then((res) => {
@@ -235,7 +234,7 @@ export default {
                 if (valid) {
                     request
                         .post(
-                            "http://127.0.0.1:3000/user/changeUserPassword",
+                            config.api_url + "/user/changeUserPassword",
                             this.passForm
                         )
                         .then((res) => {

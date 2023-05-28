@@ -164,6 +164,8 @@
 
 <script>
 import request from "@/utils/request";
+import config from "@/config";
+
 export default {
     data() {
         return {
@@ -198,10 +200,7 @@ export default {
         },
         Search() {
             request
-                .post(
-                    "http://127.0.0.1:3000/admin/listOrder",
-                    this.SearchOrderDto
-                )
+                .post(config.api_url + "/admin/listOrder", this.SearchOrderDto)
                 .then((res) => {
                     this.page = res.data.data;
                 });
@@ -209,7 +208,7 @@ export default {
         send() {
             const orderIds = this.selectedOrders.map((order) => order.orderId);
             request
-                .post("http://127.0.0.1:3000/admin/orders/send", orderIds)
+                .post(config.api_url + "/admin/orders/send", orderIds)
                 .then((res) => {
                     if (res.data.success === true) {
                         console.log("删除成功");

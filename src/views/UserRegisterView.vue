@@ -6,51 +6,54 @@
                 <el-input
                     v-model="form.username"
                     placeholder="请输入用户名"
+                    :prefix-icon="User"
                     clearable
                 >
-                    <template #prefix>
-                        <el-icon class="el-input__icon">🥳</el-icon>
-                    </template>
                 </el-input>
             </el-form-item>
             <el-form-item prop="phone">
                 <el-input
                     v-model="form.phone"
+                    :prefix-icon="Iphone"
                     placeholder="请输入手机号"
                     clearable
                 >
-                    <template #prefix>
-                        <el-icon class="el-input__icon">😎</el-icon>
-                    </template>
                 </el-input>
             </el-form-item>
-            <el-form-item prop="sex" label="性别: ">
-                <el-radio v-model="form.sex" label="男">男</el-radio>
-                <el-radio v-model="form.sex" label="女">女</el-radio>
-                <el-radio v-model="form.sex" label="保密">保密</el-radio>
+            <el-form-item prop="sex">
+                <el-select
+                    v-model="form.sex"
+                    :prefix-icon="Female"
+                    placeholder="请选择性别"
+                    style="flex: auto"
+                >
+                    <el-option
+                        v-for="item in sexOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                    >
+                    </el-option>
+                </el-select>
             </el-form-item>
             <el-form-item prop="password">
                 <el-input
                     v-model="form.password"
+                    :prefix-icon="Lock"
                     placeholder="请输入密码"
                     clearable
                     show-password
                 >
-                    <template #prefix>
-                        <el-icon class="el-input__icon">🔒</el-icon>
-                    </template>
                 </el-input>
             </el-form-item>
             <el-form-item prop="confirm">
                 <el-input
                     v-model="form.confirm"
+                    :prefix-icon="Lock"
                     placeholder="请再次确认密码"
                     clearable
                     show-password
                 >
-                    <template #prefix>
-                        <el-icon class="el-input__icon">🔒</el-icon>
-                    </template>
                 </el-input>
             </el-form-item>
             <el-form-item>
@@ -60,7 +63,7 @@
             </el-form-item>
             <el-form-item
                 ><el-button type="text" @click="$router.push('/user/login')"
-                    >前往登录>>
+                    >&lt;&lt; 有账号？点击登录
                 </el-button></el-form-item
             >
         </el-form>
@@ -70,7 +73,13 @@
 <script>
 import request from "../utils/request";
 import { ElMessage } from "element-plus";
+import { Lock, User, Iphone, Female } from "@element-plus/icons-vue";
+import config from "@/config";
+
 export default {
+    setup() {
+        return { Lock, User, Iphone, Female };
+    },
     data() {
         return {
             form: {},
@@ -120,7 +129,21 @@ export default {
                         trigger: "blur"
                     }
                 ]
-            }
+            },
+            sexOptions: [
+                {
+                    value: "男",
+                    label: "男"
+                },
+                {
+                    value: "女",
+                    label: "女"
+                },
+                {
+                    value: "保密",
+                    label: "保密"
+                }
+            ]
         };
     },
 
@@ -136,7 +159,7 @@ export default {
                         return;
                     }
                     request
-                        .post("http://127.0.0.1:3000/user/register", this.form)
+                        .post(config.api_url + "/user/register", this.form)
                         .then((res) => {
                             if (res.data.status == 0) {
                                 ElMessage.success("注册成功");

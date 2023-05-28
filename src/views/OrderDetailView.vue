@@ -43,6 +43,8 @@
 import request from "../utils/request";
 import NavBar from "@/components/NavBar.vue";
 import { ElMessage } from "element-plus";
+import config from "@/config";
+
 export default {
     components: {
         NavBar
@@ -60,7 +62,7 @@ export default {
     methods: {
         load() {
             request
-                .get("http://127.0.0.1:3000/order/get/" + this.id)
+                .get(config.api_url + "/order/get/" + this.id)
                 .then((res) => {
                     if (res.data.success) {
                         var orderInfo = res.data.data;
@@ -84,5 +86,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

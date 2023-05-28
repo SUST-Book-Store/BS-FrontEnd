@@ -77,6 +77,8 @@
 import request from "../utils/request";
 import NavBar from "@/components/NavBar.vue";
 import { ElMessage } from "element-plus";
+import config from "@/config";
+
 export default {
     components: {
         NavBar
@@ -95,14 +97,13 @@ export default {
     methods: {
         load() {
             request
-                .get("http://127.0.0.1:3000/books/detail/" + this.id)
+                .get(config.api_url + "/books/detail/" + this.id)
                 .then((res) => {
                     this.book = res.data.data;
                     console.log(this.book.detail);
                     this.photos = this.book.detail.split(";");
                     console.log(this.photos);
                     console.log(this.book);
-                
                 });
         },
         addOrder() {
@@ -113,7 +114,7 @@ export default {
             };
             console.log(data);
             request
-                .post("http://127.0.0.1:3000/order/detail/add", data)
+                .post(config.api_url + "/order/detail/add", data)
                 .then((res) => {
                     if (res != null) {
                         if (res.data.success) {
@@ -127,7 +128,7 @@ export default {
         addCart() {
             this.form.bookId = this.book.bookId; //商品id
             request
-                .post("http://127.0.0.1:3000/cart/add", this.form)
+                .post(config.api_url + "/cart/add", this.form)
                 .then((res) => {
                     if (res != null) {
                         if (res.data.success) {

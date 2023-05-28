@@ -143,6 +143,8 @@
 
 <script>
 import request from "../utils/request";
+import config from "@/config";
+
 export default {
     data() {
         return {
@@ -175,10 +177,7 @@ export default {
         },
         Search() {
             request
-                .post(
-                    "http://127.0.0.1:3000/admin/userList",
-                    this.SearchUserDto
-                )
+                .post(config.api_url + "/admin/userList", this.SearchUserDto)
                 .then((res) => {
                     this.page = res.data.data;
                 });
@@ -186,7 +185,7 @@ export default {
         deleteSelectedUser() {
             const userIds = this.selectedUser.map((user) => user.userId);
             request
-                .post("http://127.0.0.1:3000/admin/user/delete", userIds)
+                .post(config.api_url + "/admin/user/delete", userIds)
                 .then((res) => {
                     if (res.data.success === true) {
                         console.log("删除成功");
@@ -206,7 +205,7 @@ export default {
         upUser() {
             const userIds = this.selectedUser.map((user) => user.userId);
             request
-                .post("http://127.0.0.1:3000/admin/user/up", userIds)
+                .post(config.api_url + "/admin/user/up", userIds)
                 .then((res) => {
                     if (res.data.success === true) {
                         console.log("操作成功");
@@ -226,7 +225,7 @@ export default {
         downUser() {
             const userIds = this.selectedUser.map((user) => user.userId);
             request
-                .post("http://127.0.0.1:3000/admin/user/down", userIds)
+                .post(config.api_url + "/admin/user/down", userIds)
                 .then((res) => {
                     if (res.data.success === true) {
                         console.log("操作成功");

@@ -234,6 +234,8 @@
 
 <script>
 import request from "@/utils/request";
+import config from "@/config";
+
 export default {
     data() {
         return {
@@ -271,7 +273,7 @@ export default {
         },
         Search() {
             request
-                .post("http://127.0.0.1:3000/admin/lists", this.SearchBooksDto)
+                .post(config.api_url + "/admin/lists", this.SearchBooksDto)
                 .then((res) => {
                     this.page = res.data.data;
                 });
@@ -279,7 +281,7 @@ export default {
         deleteSelectedBooks() {
             const bookIds = this.selectedBooks.map((book) => book.bookId);
             request
-                .post("http://127.0.0.1:3000/admin/books/delete", bookIds)
+                .post(config.api_url + "/admin/books/delete", bookIds)
                 .then((res) => {
                     if (res.data.success === true) {
                         console.log("删除成功");
@@ -300,7 +302,7 @@ export default {
         upBook() {
             const bookIds = this.selectedBooks.map((book) => book.bookId);
             request
-                .post("http://127.0.0.1:3000/admin/books/up", bookIds)
+                .post(config.api_url + "/admin/books/up", bookIds)
                 .then((res) => {
                     if (res.data.success === true) {
                         console.log("操作成功");
@@ -320,7 +322,7 @@ export default {
         downBook() {
             const bookIds = this.selectedBooks.map((book) => book.bookId);
             request
-                .post("http://127.0.0.1:3000/admin/books/down", bookIds)
+                .post(config.api_url + "/admin/books/down", bookIds)
                 .then((res) => {
                     if (res.data.success === true) {
                         console.log("操作成功");

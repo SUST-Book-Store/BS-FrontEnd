@@ -3,22 +3,22 @@
         <el-form ref="form" :model="form" :rules="rules" class="login-page">
             <h2 class="title" style="margin-bottom: 20px">用户登陆</h2>
             <el-form-item prop="phone">
-                <el-input v-model="form.phone" clearable>
-                    <template #prefix>
-                        <el-icon class="el-input__icon">😃</el-icon>
-                    </template>
+                <el-input
+                    :prefix-icon="User"
+                    @keydown.enter="login"
+                    v-model="form.phone"
+                    clearable
+                >
                 </el-input>
             </el-form-item>
             <el-form-item prop="password">
                 <el-input
                     v-model="form.password"
+                    :prefix-icon="Lock"
                     @keydown.enter="login"
                     clearable
                     show-password
                 >
-                    <template #prefix>
-                        <el-icon class="el-input__icon">🔒</el-icon>
-                    </template>
                 </el-input>
             </el-form-item>
             <el-form-item>
@@ -27,11 +27,14 @@
                 >
             </el-form-item>
             <el-form-item
-                ><el-button type="text" @click="$router.push('/user/register/')"
-                    >前往注册 >>
+                ><el-button type="text" @click="$router.push('/')"
+                    >&lt;&lt; 返回首页
                 </el-button>
-                <el-button type="text" style="margin-left: 100px;" @click="$router.push('/')"
-                    >前往首页 >>
+                <el-button
+                    type="text"
+                    style="margin-left: auto"
+                    @click="$router.push('/user/register/')"
+                    >前往注册 &gt;&gt;
                 </el-button></el-form-item
             >
         </el-form>
@@ -42,8 +45,13 @@
 import request from "../utils/request";
 import { ElMessage } from "element-plus";
 import { mapMutations, mapState } from "vuex";
+import { Lock, User } from "@element-plus/icons-vue";
+import config from "@/config";
 
 export default {
+    setup() {
+        return { Lock, User };
+    },
     data() {
         return {
             form: {},
@@ -95,7 +103,7 @@ export default {
             this.$refs["form"].validate((valid) => {
                 if (valid) {
                     request
-                        .post("http://127.0.0.1:3000/user/login", this.form)
+                        .post(config.api_url + "/user/login", this.form)
                         .then((res) => {
                             if (res.data.status == 0) {
                                 localStorage.setItem(
@@ -103,9 +111,7 @@ export default {
                                     res.data.accessToken
                                 ); //缓存用户信息
                                 request
-                                    .get(
-                                        "http://127.0.0.1:3000/user/getUserInfo"
-                                    )
+                                    .get(config.api_url + "/user/getUserInfo")
                                     .then((res2) => {
                                         if (res2.data.code == 0) {
                                             const newUser = {

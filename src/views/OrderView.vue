@@ -69,12 +69,41 @@
                                 v-else-if="scope.row.status === 2"
                                 >已取消</span
                             >
-                            <span class="item" v-if="scope.row.status === 0"
-                                >付款</span
+                            <el-popover
+                                :visible="visible"
+                                placement="top"
+                                :width="280"
+                                style=""
+                                v-if="scope.row.status === 0"
                             >
-                            <span
-                                class="item"
-                                v-else-if="scope.row.status === 1"
+                                <p>
+                                    <img
+                                        :src="
+                                            require('../assets/images/checkout.jpg')
+                                        "
+                                        style="width: 100%"
+                                    />
+                                </p>
+                                <div
+                                    style="
+                                        text-align: right;
+                                        margin: 0;
+                                        display: flex;
+                                        flex-direction: column;
+                                    "
+                                >
+                                    <el-button
+                                        size="small"
+                                        type="primary"
+                                        @click="payOrder(scope.row.orderId)"
+                                        >我已完成付款</el-button
+                                    >
+                                </div>
+                                <template #reference>
+                                    <span class="item">付款</span>
+                                </template>
+                            </el-popover>
+                            <span class="item" v-if="scope.row.status === 1"
                                 >已付款</span
                             >
                         </template>
@@ -103,6 +132,8 @@ import NavBar from "@/components/NavBar.vue";
 import ContentField from "@/components/ContentField.vue";
 import request from "../utils/request";
 import { ElMessage } from "element-plus";
+import config from "@/config";
+
 export default {
     components: {
         ContentField,
@@ -124,7 +155,7 @@ export default {
     methods: {
         load() {
             request
-                .get("http://127.0.0.1:3000/order/page", {
+                .get(config.api_url + "/order/page", {
                     params: {
                         pageNum: this.pageNum,
                         pageSize: this.pageSize
@@ -157,7 +188,7 @@ export default {
         cancelOrder(orderId) {
             // 取消订单
             request
-                .get("http://127.0.0.1:3000/order/cancel/" + orderId)
+                .get(config.api_url + "/order/cancel/" + orderId)
                 .then((res) => {
                     if (res.data.success) {
                         ElMessage.success("该订单已取消");
@@ -169,12 +200,25 @@ export default {
         },
         lookOrder(orderId) {
             request
-                .get("http://127.0.0.1:3000/order/get/" + orderId)
+                .get(config.api_url + "/order/get/" + orderId)
                 .then((res) => {
                     if (res.data.success) {
                         this.orderInfo = res.data.data;
                         console.log(this.orderInfo);
                         this.dialogVisible = true; // 显示弹出框
+                    } else {
+                        ElMessage.error(res.data.errorMsg);
+                    }
+                });
+        },
+        payOrder(orderId) {
+            request
+                .get(config.api_url + "/order/pay/" + orderId)
+                .then((res) => {
+                    if (res.data.success) {
+                        this.orderInfo = res.data.data;
+                        ElMessage.success("付款成功");
+                        this.$router.push("/order/detail?id=" + orderId);
                     } else {
                         ElMessage.error(res.data.errorMsg);
                     }

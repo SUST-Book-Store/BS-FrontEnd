@@ -137,6 +137,8 @@
 <script>
 import request from "@/utils/request";
 import router from "@/router";
+import config from "@/config";
+
 export default {
     data() {
         return {
@@ -169,7 +171,7 @@ export default {
         },
         saveBook() {
             request
-                .post("http://127.0.0.1:3000/admin/books/save", this.book)
+                .post(config.api_url + "/admin/books/save", this.book)
                 .then((res) => {
                     if (res.data.success === true) {
                         this.$message("编辑成功");
@@ -195,7 +197,7 @@ export default {
         const bookId = this.$route.query.id;
         // 发送请求获取书籍信息
         request
-            .post("http://127.0.0.1:3000/admin/getBooks?id=" + bookId)
+            .post(config.api_url + "/admin/getBooks?id=" + bookId)
             .then((res) => {
                 this.book = res.data.data;
                 this.imgs = res.data.data.detail;

@@ -1,21 +1,15 @@
 <template>
-  <router-view></router-view>
+    <router-view></router-view>
 </template>
 
 <script>
-import NavBar from '@/components/NavBar.vue'
-import "bootstrap/dist/css/bootstrap.min.css"
-import "bootstrap/dist/js/bootstrap"
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap";
 //import $ from 'jquery'
 
 export default {
-  components: {
-    NavBar
-  },
-  setup() {
-  }
-}
+    setup() {}
+};
 </script>
 
-<style>
-</style>
+<style></style>

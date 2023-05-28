@@ -15,7 +15,7 @@
     "element-plus": "^2.3.5",
     "element-ui": "^2.15.13",
     "swiper": "^9.3.2",
-    "vue": "^3.2.13",
+    "vue": "^3.2.26",
     "vue-awesome-swiper": "^5.0.1",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0",

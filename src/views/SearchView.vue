@@ -2,33 +2,6 @@
     <NavBar></NavBar>
     <SearchBar></SearchBar>
     <content-field>
-        <div
-            class="container"
-            style="display: flex; justify-content: center; margin-bottom: 10px"
-        >
-            <div style="width: 100%; height: 310px">
-                <el-carousel
-                    height="300px"
-                    :interval="3000"
-                    style="
-                        cursor: pointer;
-                        margin-bottom: 50px;
-                        align-items: center;
-                    "
-                    class="unique-carousel"
-                >
-                    <el-carousel-item v-for="item in imgs" :key="item">
-                        <ElImage
-                            :src="require('../assets/images/' + item + '.jpg')"
-                            style="height: 300px"
-                            alt="picture"
-                            fit="cover"
-                        ></ElImage>
-                    </el-carousel-item>
-                </el-carousel>
-            </div>
-        </div>
-        <hr />
         <div>
             <el-row :gutter="10">
                 <el-col
@@ -105,6 +78,7 @@ import NavBar from "@/components/NavBar.vue";
 import ContentField from "../components/ContentField.vue";
 import request from "../utils/request";
 import SearchBar from "@/components/SearchBar.vue";
+import { ElMessage } from "element-plus";
 import config from "@/config";
 
 export default {
@@ -116,13 +90,6 @@ export default {
 
     data() {
         return {
-            imgs: [
-                "carousel-1",
-                "carousel-2",
-                "carousel-3",
-                "carousel-4",
-                "carousel-5"
-            ],
             tableData: [],
             total: 0,
             pageNum: 1,
@@ -137,26 +104,38 @@ export default {
 
     methods: {
         load() {
-            request
-                .get(config.api_url + "/books/page", {
-                    params: {
-                        pageNum: this.pageNum,
-                        pageSize: this.pageSize,
-                        name: this.name
-                    }
-                })
-                .then((res) => {
-                    console.log(res);
-                    this.tableData = res.data.data.records;
-                    this.total = res.data.data.total;
-                    for (var i = 0; i < this.tableData.length; i++) {
-                        this.tableData[i].name =
-                            this.tableData[i].name.substring(0, 15) + "......";
-                    }
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
+            if (
+                this.$route.params.keyword == null ||
+                this.$route.params.keyword == undefined ||
+                this.$route.params.keyword.trim() == ""
+            ) {
+                ElMessage.error("参数错误");
+                this.$router.push("/");
+            } else {
+                request
+                    .get(config.api_url + "/books/search", {
+                        params: {
+                            keyword: this.$route.params.keyword,
+                            page: this.pageNum
+                        }
+                    })
+                    .then((res) => {
+                        if (res.data.success) {
+                            this.tableData = res.data.data.bookList;
+                            this.total = res.data.data.total;
+                            for (var i = 0; i < this.tableData.length; i++) {
+                                this.tableData[i].name =
+                                    this.tableData[i].name.substring(0, 15) +
+                                    "......";
+                            }
+                        } else {
+                            ElMessage.error(res.data.errorMsg);
+                        }
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            }
         },
         handleSizeChange(pageSize) {
             console.log(pageSize);

@@ -117,6 +117,8 @@
 <script>
 import request from "@/utils/request";
 import router from "@/router";
+import config from "@/config";
+
 export default {
     data() {
         return {
@@ -138,7 +140,7 @@ export default {
         },
         saveBook() {
             request
-                .post("http://127.0.0.1:3000/admin/books/savebook", this.book)
+                .post(config.api_url + "/admin/books/savebook", this.book)
                 .then((res) => {
                     if (res.data.success === true) {
                         this.$message("编辑成功");
