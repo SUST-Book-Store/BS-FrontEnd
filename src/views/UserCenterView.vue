@@ -37,6 +37,9 @@
                                 >
                             </div>
                         </el-form-item>
+                        <el-form-item label="收货地址" prop="address">
+                            <el-input v-model="form.address"></el-input>
+                        </el-form-item>
                     </el-form>
                     <div style="text-align: center">
                         <el-button type="primary" @click="update"
@@ -129,6 +132,13 @@ export default {
                         trigger: "blur"
                     }
                 ],
+                address: [
+                    {
+                        required: true,
+                        message: "请输入收货地址",
+                        trigger: "blur"
+                    }
+                ],
                 phone: [
                     {
                         required: true,
@@ -182,12 +192,12 @@ export default {
     },
     created() {
         const store = useStore();
-        console.log(store.state.user);
         this.form = {
             user_id: store.state.user.user_id,
             username: store.state.user.username,
             sex: store.state.user.sex,
-            phone: store.state.user.phone
+            phone: store.state.user.phone,
+            address: store.state.user.address
         };
     },
     computed: {
@@ -219,7 +229,8 @@ export default {
                                     phone: this.form.phone,
                                     sex: this.form.sex,
                                     is_admin: this.user.is_admin,
-                                    is_login: true
+                                    is_login: true,
+                                    address: this.form.address
                                 };
                                 this.updateUserInfo(newUser);
                             } else {

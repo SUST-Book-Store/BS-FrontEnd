@@ -191,17 +191,24 @@ export default {
                 totalPrice: this.totalPrice,
                 carts: this.multipleSelection
             };
-            console.log(data);
-            request
-                .post(config.api_url + "/order/cart/add", data)
-                .then((res) => {
-                    if (res.data.success) {
-                        ElMessage.success("下单成功");
-                        this.load();
-                    } else {
-                        ElMessage.error(res.data.errorMsg);
-                    }
-                });
+            if (
+                this.$store.state.user.address == null ||
+                this.$store.state.user.address == ""
+            ) {
+                ElMessage.warning("请先设置收货地址！");
+                this.$router.push("/user/center");
+            } else {
+                request
+                    .post(config.api_url + "/order/cart/add", data)
+                    .then((res) => {
+                        if (res.data.success) {
+                            ElMessage.success("下单成功");
+                            this.load();
+                        } else {
+                            ElMessage.error(res.data.errorMsg);
+                        }
+                    });
+            }
         },
         del(id) {
             request.post(config.api_url + "/cart/" + id).then((res) => {

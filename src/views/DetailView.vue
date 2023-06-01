@@ -78,7 +78,6 @@ import request from "../utils/request";
 import NavBar from "@/components/NavBar.vue";
 import { ElMessage } from "element-plus";
 import config from "@/config";
-
 export default {
     components: {
         NavBar
@@ -112,18 +111,25 @@ export default {
                 amount: this.form.amount,
                 price: this.book.price
             };
-            console.log(data);
-            request
-                .post(config.api_url + "/order/detail/add", data)
-                .then((res) => {
-                    if (res != null) {
-                        if (res.data.success) {
-                            ElMessage.success("已加入订单");
-                        } else {
-                            ElMessage.error(res.data.errorMsg);
+            if (
+                this.$store.state.user.address == null ||
+                this.$store.state.user.address == ""
+            ) {
+                ElMessage.warning("请先设置收货地址！");
+                this.$router.push("/user/center");
+            } else {
+                request
+                    .post(config.api_url + "/order/detail/add", data)
+                    .then((res) => {
+                        if (res != null) {
+                            if (res.data.success) {
+                                ElMessage.success("已加入订单");
+                            } else {
+                                ElMessage.error(res.data.errorMsg);
+                            }
                         }
-                    }
-                });
+                    });
+            }
         },
         addCart() {
             this.form.bookId = this.book.bookId; //商品id

@@ -13,7 +13,7 @@
                     <el-table-column
                         prop="totalPrice"
                         label="价格"
-                        width="100px"
+                        width="75px"
                     >
                         <template v-slot="scope">
                             <span style="color: orangered"
@@ -24,7 +24,7 @@
                     <el-table-column
                         prop="status"
                         label="订单状态"
-                        width="150px"
+                        width="100px"
                     >
                         <template v-slot="scope">
                             <span v-if="scope.row.status === 0">未付款</span>
@@ -39,6 +39,10 @@
                             >
                         </template>
                     </el-table-column>
+                    <el-table-column
+                        prop="address"
+                        label="收货地址"
+                    ></el-table-column>
                     <el-table-column
                         prop="time"
                         label="下单时间"
