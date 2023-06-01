@@ -190,10 +190,10 @@ export default {
                     if (res.data.success === true) {
                         console.log("删除成功");
                         this.Search();
-                        // 执行其他操作，如刷新图书列表等
+                       
                     } else {
                         console.error("删除失败:", res.data.errorMsg);
-                        // 处理删除失败的情况，显示错误信息等
+                        
                         this.$message.error(res.data.errorMsg);
                     }
                 })
@@ -210,10 +210,10 @@ export default {
                     if (res.data.success === true) {
                         console.log("操作成功");
                         this.Search();
-                        // 执行其他操作，如刷新图书列表等
+                        
                     } else {
                         console.error("操作失败:", res.data.errorMsg);
-                        // 处理删除失败的情况，显示错误信息等
+                        
                         this.$message.error(res.data.errorMsg);
                     }
                 })

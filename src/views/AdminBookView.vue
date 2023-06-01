@@ -204,11 +204,7 @@
                                 <el-button
                                     type="primary"
                                     size="mini"
-                                    @click="
-                                        $router.push(
-                                            '/admin/editBook?id=' + row.bookId
-                                        )
-                                    "
+                                    @click="updateById(row)"
                                     >编辑</el-button
                                 >
                             </template>
@@ -285,6 +281,10 @@ export default {
                 .then((res) => {
                     if (res.data.success === true) {
                         console.log("删除成功");
+                        this.$message({
+                           message: '操作成功',
+                          type: 'success'
+                            });
                         this.Search();
                         // 执行其他操作，如刷新图书列表等
                     } else {
@@ -298,7 +298,16 @@ export default {
                     console.error("删除失败", error);
                 });
         },
-
+        updateById(row)
+        {
+            if(row.available===0)
+            {
+            // eslint-disable-next-line no-undef
+            this.$router.push('/admin/editBook?id=' + row.bookId)}
+            else{
+                this.$message('商品未下架');
+            }
+        },
         upBook() {
             const bookIds = this.selectedBooks.map((book) => book.bookId);
             request
@@ -306,6 +315,10 @@ export default {
                 .then((res) => {
                     if (res.data.success === true) {
                         console.log("操作成功");
+                        this.$message({
+                           message: '操作成功',
+                          type: 'success'
+                            });
                         this.Search();
                         // 执行其他操作，如刷新图书列表等
                     } else {
@@ -326,6 +339,10 @@ export default {
                 .then((res) => {
                     if (res.data.success === true) {
                         console.log("操作成功");
+                        this.$message({
+                           message: '操作成功',
+                          type: 'success'
+                            });
                         this.Search();
                         // 执行其他操作，如刷新图书列表等
                     } else {

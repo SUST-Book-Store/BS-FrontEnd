@@ -31,7 +31,7 @@
                             </el-menu-item>
                             <el-menu-item index="1-3">
                                 <router-link to="/admin/manageOrder"
-                                    >用户管理</router-link
+                                    >订单管理</router-link
                                 >
                             </el-menu-item>
                         </el-submenu>
@@ -77,6 +77,11 @@
                         <el-form-item>
                             <el-button type="primary" @click="Search"
                                 >查询</el-button
+                            >
+                            <el-button
+                                type="danger"
+                                @click="deleteOrdes"
+                                >删除</el-button
                             >
                             <el-button type="primary" @click="send"
                                 >发货</el-button
@@ -141,6 +146,11 @@
                         <el-table-column
                             prop="payTime"
                             label="付款时间"
+                            width="180"
+                        ></el-table-column>
+                        <el-table-column
+                            prop="address"
+                            label="下单时间"
                             width="180"
                         ></el-table-column>
                     </el-table>
@@ -211,7 +221,34 @@ export default {
                 .post(config.api_url + "/admin/orders/send", orderIds)
                 .then((res) => {
                     if (res.data.success === true) {
+                        this.$message({
+                           message: '操作成功',
+                          type: 'success'
+                            });
+                        this.Search();
+                    } else {
+                        console.error("操作失败:", res.data.errorMsg);
+
+                        this.$message.error(res.data.errorMsg);
+                    }
+                })
+                .catch((error) => {
+                    // 错误处理
+                    console.error("删除失败", error);
+                });
+        },
+        deleteOrdes()
+        {
+            const orderIds = this.selectedOrders.map((order) => order.orderId);
+            request
+                .post(config.api_url + "/admin/orders/delete", orderIds)
+                .then((res) => {
+                    if (res.data.success === true) {
                         console.log("删除成功");
+                        this.$message({
+                           message: '操作成功',
+                          type: 'success'
+                            });
                         this.Search();
                     } else {
                         console.error("删除失败:", res.data.errorMsg);

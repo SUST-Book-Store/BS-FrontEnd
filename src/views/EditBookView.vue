@@ -86,22 +86,23 @@
                         <el-form-item label="出版社">
                             <el-input v-model="book.publisher"></el-input>
                         </el-form-item>
-                        <!-- 显示多个图片并且编辑 -->
-                        <!-- <el-form-item label="图片">
-      <div v-for="(image, index) in book.detail" :key="index">
+                        <el-form-item label="Images">
+ 
+        <div v-for="(image, index) in book.detail" :key="index" class="image-item">
+          <div class="image-container">
+            <img :src="image" alt="Product Image" class="product-image" style="width: 150px; height: auto;"/>
+            <el-button size="mini" @click="removeImage(index)">Remove</el-button>
+          </div>
+        </div>
         <el-upload
-          class="upload-demo"
-          action="http://localhost:3000/admin/books/img"
-          list-type="picture-card"
-          :file-list="image.fileList"
-         
+          class="upload"
+          action="http://localhost:3000/admin/books/img" 
+          :on-success="handleUploadSuccess"
+          :on-remove="handleRemoveImage"
         >
-          <el-button size="small" type="primary">上传图片</el-button>
+          <el-button slot="trigger" size="small">Upload</el-button>
         </el-upload>
-        <img :src="image.url" alt="图片" style="max-width: 250px; max-height: 300px;">
-      </div>
-    </el-form-item> -->
-
+      </el-form-item>
                         <el-form-item label="库存">
                             <el-input v-model="book.stock"></el-input>
                         </el-form-item>
