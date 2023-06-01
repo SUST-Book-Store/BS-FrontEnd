@@ -46,24 +46,14 @@
                         </el-form-item>
                         <el-form-item label="封面">
                             <el-upload
-                                class="avatar-uploader"
-                                action="http://localhost:3000/admin/books/img"
-                                :show-file-list="false"
-                                :on-success="handleAvatarSuccess"
-                                :before-upload="beforeAvatarUpload"
-                            >
-                                <img
-                                    v-if="book.photo"
-                                    :src="book.photo"
-                                    class="avatar"
-                                    style="max-width: 200px; max-height: 100px"
-                                />
-                                <i
-                                    v-else
-                                    class="el-icon-plus avatar-uploader-icon"
-                                ></i>
-                            </el-upload>
-                        </el-form-item>
+                           action="http://localhost:3000/admin/books/img"
+                           :on-success="handleAvatarSuccess"
+                           :before-remove="beforeRemove"
+                           list-type="picture"
+                       >
+                    <el-button slot="trigger">点击上传</el-button>
+                     </el-upload>
+                   </el-form-item>
                         <el-form-item label="作者">
                             <el-input v-model="book.author"></el-input>
                         </el-form-item>
@@ -86,6 +76,21 @@
                         <el-form-item label="库存">
                             <el-input v-model="book.stock"></el-input>
                         </el-form-item>
+                        <el-form-item prop="book.detail" label="图片集">
+    <el-upload
+    action="http://localhost:3000/admin/books/img"
+	:multiple = true
+	list-type="picture-card"
+	:with-credentials='true'
+	:on-remove="handleRemove"
+	:on-success="handleSuccess"
+	:before-upload="beforeAvatarUpload">
+	<i class="el-icon-plus"></i>
+    </el-upload>
+    <el-dialog :visible.sync="dialogVisible">
+	<img width="100%" :src="book.detail" alt="">
+    </el-dialog>
+</el-form-item>
 
                         <el-form-item label="状态">
                             <el-select
@@ -122,22 +127,40 @@ import config from "@/config";
 export default {
     data() {
         return {
-            book: {},
+            book: {
+                detail:[]
+            },
             imageList: [],
-            imgs: ""
+            imageUrl: "",
+            dialogImageUrl: '',
+            dialogVisible: false
         };
     },
     methods: {
         handleAvatarSuccess(res) {
             this.book.photo = res.data;
         },
-        beforeAvatarUpload(file) {
-            const isLt2M = file.size / 1024 / 1024 < 5;
-            if (!isLt2M) {
-                this.$message.error("上传图片大小不能超过 5MB!");
-            }
-            return isLt2M;
+        beforeRemove(file)
+        {
+            this.book.photo="";
         },
+        handleRemove(file) {
+                this.book.detail.pop(file.response);
+			},
+			beforeAvatarUpload(file) {
+				console.log(file);
+				const isJPG = true;
+				const isLt2M = file.size / 1024 / 1024 < 2;
+				if (!isLt2M) {
+                    this.$message.error('上传图片大小不能超过 2MB!');
+				}
+				return isJPG && isLt2M;
+            },
+			handleSuccess(res, file) {//图片上传成功
+				this.book.detail.push(res.data)				
+				this.dialogImageUrl =res.data;
+            },
+
         saveBook() {
             request
                 .post(config.api_url + "/admin/books/savebook", this.book)

@@ -150,18 +150,18 @@ export default {
     },
     methods: {
         handleUploadSuccess(index, response) {
-            if (response && response.status === "success") {
-                // 更新对应索引的图片 URL
-                this.book.detail[index].url = response.data.url;
-            }
+                this.book.detail.push(response.data);
+
         },
         handleRemoveImage(index) {
-            // 处理删除图片的逻辑
-            this.book.detail[index].url = ""; // 清空对应索引的图片 URL
-            this.book.detail[index].fileList = []; // 清空对应索引的文件列表
+        this.book.detail.splice(index, 1);
         },
         handleAvatarSuccess(res) {
             this.book.photo = res.data;
+        },
+        removeImage(index) {
+      // 移除对应索引的图片路径
+        this.book.detail.splice(index, 1);
         },
         beforeAvatarUpload(file) {
             const isLt2M = file.size / 1024 / 1024 < 5;
