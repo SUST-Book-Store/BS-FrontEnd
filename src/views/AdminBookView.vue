@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-container style="height: 700px; border: 1px solid #eee">
+        <el-container style="height: 1000px; border: 1px solid #eee">
             <el-header
                 style="font-size: 40px; background-color: rgb(238, 241, 246)"
                 >网上书店管理系统后台<el-button
@@ -11,7 +11,7 @@
                 </el-button></el-header
             >
             <el-container>
-                <el-aside width="230px" style="border: 1px solid #eee">
+                <el-aside width="240px" style="border: 1px solid #eee">
                     <el-menu :default-openeds="['1', '3']">
                         <el-submenu index="1">
                             <template #title
@@ -74,7 +74,7 @@
                         <el-form-item label="类型">
                             <el-input
                                 v-model="SearchBooksDto.type"
-                                placeholder="作者"
+                                placeholder="类型"
                             ></el-input>
                         </el-form-item>
 
@@ -282,9 +282,9 @@ export default {
                     if (res.data.success === true) {
                         console.log("删除成功");
                         this.$message({
-                           message: '操作成功',
-                          type: 'success'
-                            });
+                            message: "操作成功",
+                            type: "success"
+                        });
                         this.Search();
                         // 执行其他操作，如刷新图书列表等
                     } else {
@@ -298,14 +298,12 @@ export default {
                     console.error("删除失败", error);
                 });
         },
-        updateById(row)
-        {
-            if(row.available===0)
-            {
-            // eslint-disable-next-line no-undef
-            this.$router.push('/admin/editBook?id=' + row.bookId)}
-            else{
-                this.$message('商品未下架');
+        updateById(row) {
+            if (row.available === 0) {
+                // eslint-disable-next-line no-undef
+                this.$router.push("/admin/editBook?id=" + row.bookId);
+            } else {
+                this.$message("商品未下架");
             }
         },
         upBook() {
@@ -316,9 +314,9 @@ export default {
                     if (res.data.success === true) {
                         console.log("操作成功");
                         this.$message({
-                           message: '操作成功',
-                          type: 'success'
-                            });
+                            message: "操作成功",
+                            type: "success"
+                        });
                         this.Search();
                         // 执行其他操作，如刷新图书列表等
                     } else {
@@ -340,9 +338,9 @@ export default {
                     if (res.data.success === true) {
                         console.log("操作成功");
                         this.$message({
-                           message: '操作成功',
-                          type: 'success'
-                            });
+                            message: "操作成功",
+                            type: "success"
+                        });
                         this.Search();
                         // 执行其他操作，如刷新图书列表等
                     } else {

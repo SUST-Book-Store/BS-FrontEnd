@@ -86,27 +86,46 @@
                         <el-form-item label="出版社">
                             <el-input v-model="book.publisher"></el-input>
                         </el-form-item>
-                        <el-form-item label="Images">
- 
-        <div v-for="(image, index) in book.detail" :key="index" class="image-item">
-          <div class="image-container">
-            <img :src="image" alt="Product Image" class="product-image" style="width: 150px; height: auto;"/>
-            <el-button size="mini" @click="removeImage(index)">Remove</el-button>
-          </div>
-        </div>
-        <el-upload
-          class="upload"
-          action="http://localhost:3000/admin/books/img" 
-          :on-success="handleUploadSuccess"
-          :on-remove="handleRemoveImage"
-        >
-          <el-button slot="trigger" size="small">Upload</el-button>
-        </el-upload>
-      </el-form-item>
+                        <el-form-item label="书籍详情">
+                            <div
+                                v-for="(image, index) in book.detail"
+                                :key="index"
+                                class="image-item"
+                            >
+                                <div class="image-container">
+                                    <img
+                                        :src="image"
+                                        alt="Product Image"
+                                        class="product-image"
+                                        style="width: 150px; height: auto"
+                                    />
+                                    <el-button
+                                        size="mini"
+                                        @click="removeImage(index)"
+                                        >Remove</el-button
+                                    >
+                                </div>
+                            </div>
+                        </el-form-item>
+                        <el-form-item prop="book.detail" label="添加书籍详情">
+                            <el-upload
+                                action="http://localhost:3000/admin/books/img"
+                                :multiple="true"
+                                list-type="picture-card"
+                                :with-credentials="true"
+                                :on-remove="handleRemove"
+                                :on-success="handleSuccess"
+                                :before-upload="beforeAvatarUpload"
+                            >
+                                <i class="el-icon-plus"></i>
+                            </el-upload>
+                            <el-dialog :visible.sync="dialogVisible">
+                                <img width="100%" :src="book.detail" alt="" />
+                            </el-dialog>
+                        </el-form-item>
                         <el-form-item label="库存">
                             <el-input v-model="book.stock"></el-input>
                         </el-form-item>
-
                         <el-form-item label="状态">
                             <el-select
                                 v-model="book.available"
@@ -145,23 +164,23 @@ export default {
         return {
             book: {},
             imageList: [],
-            imgs: ""
+            imgs: "",
+            dialogVisible: false
         };
     },
     methods: {
         handleUploadSuccess(index, response) {
-                this.book.detail.push(response.data);
-
+            this.book.detail.push(response.data);
         },
         handleRemoveImage(index) {
-        this.book.detail.splice(index, 1);
+            this.book.detail.splice(index, 1);
         },
         handleAvatarSuccess(res) {
             this.book.photo = res.data;
         },
         removeImage(index) {
-      // 移除对应索引的图片路径
-        this.book.detail.splice(index, 1);
+            // 移除对应索引的图片路径
+            this.book.detail.splice(index, 1);
         },
         beforeAvatarUpload(file) {
             const isLt2M = file.size / 1024 / 1024 < 5;
@@ -169,6 +188,14 @@ export default {
                 this.$message.error("上传图片大小不能超过 5MB!");
             }
             return isLt2M;
+        },
+        handleRemove(file) {
+            this.book.detail.pop(file.response);
+        },
+        handleSuccess(res, file) {
+            //图片上传成功
+            this.book.detail.push(res.data);
+            this.dialogImageUrl = res.data;
         },
         saveBook() {
             request
