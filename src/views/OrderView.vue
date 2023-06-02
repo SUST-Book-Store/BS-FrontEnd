@@ -57,7 +57,7 @@
                                 class="item"
                                 @click="
                                     $router.push(
-                                        '/order/detail?id=' + scope.row.orderId
+                                        '/order/detail?id=' + scope.row.orderId + '&status=' + scope.row.status
                                     )
                                 "
                                 >查看</span
@@ -222,7 +222,7 @@ export default {
                     if (res.data.success) {
                         this.orderInfo = res.data.data;
                         ElMessage.success("付款成功");
-                        this.$router.push("/order/detail?id=" + orderId);
+                        this.$router.push("/order/detail?id=" + orderId + "&status=" + 1);
                     } else {
                         ElMessage.error(res.data.errorMsg);
                     }
