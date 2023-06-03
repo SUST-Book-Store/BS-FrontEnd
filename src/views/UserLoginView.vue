@@ -123,7 +123,8 @@ export default {
                                                 sex: res2.data.data.sex,
                                                 is_admin:
                                                     res2.data.data.is_admin,
-                                                is_login: true
+                                                is_login: true,
+                                                address: res2.data.data.address
                                             };
                                             this.updateUserInfo(newUser);
                                             ElMessage.success("登录成功");
