@@ -122,7 +122,8 @@
                         <el-table-column prop="role" label="状态" width="180">
                             <template #default="{ row }">
                                 <span v-if="row.role === 1">管理员</span>
-                                <span v-else>普通用户</span>
+                                <span v-else-if="row.role === 0">普通用户</span>
+                                <span v-else-if="row.role === 2">超级管理员</span>
                             </template>
                         </el-table-column>
                     </el-table>
