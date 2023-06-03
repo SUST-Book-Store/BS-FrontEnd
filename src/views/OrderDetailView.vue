@@ -49,18 +49,45 @@
                         >￥{{ totalPrice.toFixed(2) }}</span
                     >
                 </div>
-                <el-button
+                <el-popover
+                    :visible="visible"
+                    placement="top"
+                    :width="280"
+                    style="padding: auto"
                     v-if="this.status == 0"
-                    @click="payOrder"
-                    size="large"
-                    style="
-                        background-color: orangered;
-                        color: white;
-                        margin-right: 40px;
-                        border-radius: 10%;
-                    "
-                    >结算</el-button
                 >
+                    <p>
+                        <img
+                            :src="require('../assets/images/checkout.jpg')"
+                            style="width: 100%"
+                        />
+                    </p>
+                    <div
+                        style="
+                            text-align: right;
+                            margin: 0;
+                            display: flex;
+                            flex-direction: column;
+                        "
+                    >
+                        <el-button size="small" type="primary" @click="payOrder"
+                            >我已完成付款</el-button
+                        >
+                    </div>
+                    <template #reference>
+                        <el-button
+                            v-if="this.status == 0"
+                            size="large"
+                            style="
+                                background-color: orangered;
+                                color: white;
+                                margin-right: 40px;
+                                border-radius: 10%;
+                            "
+                            >结算</el-button
+                        >
+                    </template>
+                </el-popover>
                 <div
                     style="
                         padding: 10px 0;
@@ -68,19 +95,13 @@
                         font-size: large;
                     "
                 >
-                    <span
-                        style=" color: red"
-                        v-if="this.status == 1"
+                    <span style="color: red" v-if="this.status == 1"
                         >已付款</span
                     >
-                    <span
-                        style="; color: red"
-                        v-else-if="this.status == 2"
+                    <span style="color: red" v-else-if="this.status == 2"
                         >已取消</span
                     >
-                    <span
-                        style=" color: red"
-                        v-else-if="this.status == 3"
+                    <span style="color: red" v-else-if="this.status == 3"
                         >已处理</span
                     >
                 </div>
