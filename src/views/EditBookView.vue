@@ -41,6 +41,9 @@
                         <el-form-item label="bookId">
                             <el-input v-model="book.bookId" disabled></el-input>
                         </el-form-item>
+                        <el-form-item label="编号">
+                            <el-input v-model="book.isbn" disabled></el-input>
+                        </el-form-item>
                         <el-form-item label="书名">
                             <el-input v-model="book.name"></el-input>
                         </el-form-item>
@@ -146,6 +149,9 @@
                             <el-button type="primary" @click="saveBook"
                                 >保存</el-button
                             >
+                            <el-button type="primary" @click="cancelEdit"
+                                >取消</el-button
+                            >
                         </el-form-item>
                     </el-form>
                 </el-main>
@@ -179,7 +185,6 @@ export default {
             this.book.photo = res.data;
         },
         removeImage(index) {
-            // 移除对应索引的图片路径
             this.book.detail.splice(index, 1);
         },
         beforeAvatarUpload(file) {
@@ -193,7 +198,6 @@ export default {
             this.book.detail.pop(file.response);
         },
         handleSuccess(res, file) {
-            //图片上传成功
             this.book.detail.push(res.data);
             this.dialogImageUrl = res.data;
         },
@@ -204,26 +208,22 @@ export default {
                     if (res.data.success === true) {
                         this.$message("编辑成功");
                         router.push("/admin/index");
-                        // 执行其他操作，如刷新图书列表等
                     } else {
                         console.error("编辑失败:", res.data.errorMsg);
-                        // 处理删除失败的情况，显示错误信息等
                         this.$message.error(res.data.errorMsg);
                     }
                 })
                 .catch((error) => {
-                    // 错误处理
-                    console.error("删除失败", error);
+                    console.error("失败", error);
+                    this.$message.error("未知错误");
                 });
         },
         cancelEdit() {
-            console.log("取消编辑");
+            router.push("/admin/index");
         }
     },
     created() {
-        // 获取查询参数中的书籍ID
         const bookId = this.$route.query.id;
-        // 发送请求获取书籍信息
         request
             .post(config.api_url + "/admin/getBooks?id=" + bookId)
             .then((res) => {
@@ -231,7 +231,6 @@ export default {
                 this.imgs = res.data.data.detail;
             })
             .catch((error) => {
-                // 错误处理
                 console.error("失败", error);
             });
     }

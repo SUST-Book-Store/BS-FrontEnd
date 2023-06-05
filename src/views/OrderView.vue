@@ -13,7 +13,7 @@
                     <el-table-column
                         prop="totalPrice"
                         label="价格"
-                        width="75px"
+                        width="100px"
                     >
                         <template v-slot="scope">
                             <span style="color: orangered"

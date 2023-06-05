@@ -233,8 +233,9 @@ export default {
                     }
                 })
                 .catch((error) => {
+                    console.error("失败", error);
                     // 错误处理
-                    console.error("删除失败", error);
+                    this.$message.error("未知错误");
                 });
         },
         deleteOrdes()
@@ -251,14 +252,13 @@ export default {
                             });
                         this.Search();
                     } else {
-                        console.error("删除失败:", res.data.errorMsg);
-
                         this.$message.error(res.data.errorMsg);
                     }
                 })
                 .catch((error) => {
                     // 错误处理
-                    console.error("删除失败", error);
+                    console.error("失败", error);
+                    this.$message.error("未知错误");
                 });
         },
         res() {

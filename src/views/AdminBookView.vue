@@ -129,7 +129,7 @@
                         ></el-table-column>
                         <el-table-column label="封面" width="200">
                             <template #default="{ row }">
-                                <img :src="row.photo" />
+                                <img :src="row.photo" style="height: 200px;" />
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -170,7 +170,7 @@
                                             :src="image"
                                             alt="图片"
                                             style="
-                                                max-width: 250px;
+                                                max-width: 200px;
                                                 max-height: 300px;
                                             "
                                         />
@@ -295,12 +295,12 @@ export default {
                 })
                 .catch((error) => {
                     // 错误处理
-                    console.error("删除失败", error);
+                    console.error("失败", error);
+                    this.$message.error("未知错误");
                 });
         },
         updateById(row) {
             if (row.available === 0) {
-                // eslint-disable-next-line no-undef
                 this.$router.push("/admin/editBook?id=" + row.bookId);
             } else {
                 this.$message("商品未下架");
@@ -318,16 +318,14 @@ export default {
                             type: "success"
                         });
                         this.Search();
-                        // 执行其他操作，如刷新图书列表等
                     } else {
                         console.error("操作失败:", res.data.errorMsg);
-                        // 处理删除失败的情况，显示错误信息等
                         this.$message.error(res.data.errorMsg);
                     }
                 })
                 .catch((error) => {
-                    // 错误处理
-                    console.error("删除失败", error);
+                    console.error("失败", error);
+                    this.$message.error("未知错误");
                 });
         },
         downBook() {
@@ -342,16 +340,14 @@ export default {
                             type: "success"
                         });
                         this.Search();
-                        // 执行其他操作，如刷新图书列表等
                     } else {
                         console.error("操作失败:", res.data.errorMsg);
-                        // 处理删除失败的情况，显示错误信息等
                         this.$message.error(res.data.errorMsg);
                     }
                 })
                 .catch((error) => {
-                    // 错误处理
-                    console.error("删除失败", error);
+                    console.error("失败", error);
+                    this.$message.error("未知错误");
                 });
         },
         res() {
