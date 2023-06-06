@@ -111,7 +111,10 @@ export default {
                 amount: this.form.amount,
                 price: this.book.price
             };
-            if (
+            if (this.$store.state.user.user_id == -1) {
+                ElMessage.error("请先登陆");
+                this.$router.push("/user/login");
+            } else if (
                 this.$store.state.user.address == null ||
                 this.$store.state.user.address == ""
             ) {
