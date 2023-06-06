@@ -223,6 +223,7 @@ export default {
                         if (res != null) {
                             //this.tableData = res.data.data;
                             this.tableData = [];
+                            this.total = 1;
                             this.tableData.push(res.data.data);
                             console.log(this.tableData);
                         }
