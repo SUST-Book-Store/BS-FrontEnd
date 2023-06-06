@@ -3,6 +3,25 @@
     <content-field>
         <div style="font-size: large">订单(全部)</div>
         <hr />
+        <div>
+            <div>
+                <el-input
+                    style="width: 400px"
+                    placeholder="请输入订单编号进行搜索"
+                    clearable
+                    size="medium"
+                    v-model="no"
+                ></el-input>
+                <el-button
+                    class="ml-5"
+                    type="primary"
+                    size="medium"
+                    suffix-icon="el-icon-search"
+                    @click="getByNo"
+                    >搜索</el-button
+                >
+            </div>
+        </div>
         <div class="card" style="margin-top: 20px">
             <div class="card-body">
                 <el-table :data="tableData">
@@ -57,7 +76,10 @@
                                 class="item"
                                 @click="
                                     $router.push(
-                                        '/order/detail?id=' + scope.row.orderId + '&status=' + scope.row.status
+                                        '/order/detail?id=' +
+                                            scope.row.orderId +
+                                            '&status=' +
+                                            scope.row.status
                                     )
                                 "
                                 >查看</span
@@ -110,11 +132,14 @@
                             <span class="item" v-if="scope.row.status === 1"
                                 >已付款</span
                             >
+                            <span class="item" v-if="scope.row.status === 3">已处理</span>
+                            <span class="item" @click="deleteById(scope.row.orderId)">删除</span>
                         </template>
                     </el-table-column>
                 </el-table>
                 <div style="padding: 10px 0">
                     <el-pagination
+                        v-if="total > pageSize"
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"
                         :current-page="pageNum"
@@ -148,6 +173,7 @@ export default {
             tableData: [],
             pageNum: 1,
             pageSize: 10,
+            no: "",
             total: 0,
             orderInfo: [],
             dialogVisible: false
@@ -172,6 +198,36 @@ export default {
                         console.log(this.tableData);
                     }
                 });
+        },
+        deleteById(id) {
+            request.post(config.api_url + "/order/delete/" + id).then((res) => {
+                if (res != null) {
+                    if (res.data.success) {
+                        ElMessage.success("删除成功!");
+                        this.load();
+                    } else {
+                        ElMessage.error(res.data.errorMsg);
+                    }
+                }
+            })
+        },
+        getByNo() {
+            if (this.no.trim().length != 0) {
+                request
+                    .get(config.api_url + "/order/get/no", {
+                        params: {
+                            no: this.no
+                        }
+                    })
+                    .then((res) => {
+                        if (res != null) {
+                            //this.tableData = res.data.data;
+                            this.tableData = [];
+                            this.tableData.push(res.data.data);
+                            console.log(this.tableData);
+                        }
+                    });
+            }
         },
         // 显示删除提示框
         showCancelDialog(orderId) {
@@ -222,7 +278,9 @@ export default {
                     if (res.data.success) {
                         this.orderInfo = res.data.data;
                         ElMessage.success("付款成功");
-                        this.$router.push("/order/detail?id=" + orderId + "&status=" + 1);
+                        this.$router.push(
+                            "/order/detail?id=" + orderId + "&status=" + 1
+                        );
                     } else {
                         ElMessage.error(res.data.errorMsg);
                     }

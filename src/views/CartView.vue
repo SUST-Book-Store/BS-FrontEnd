@@ -7,7 +7,7 @@
             <div>
                 <el-input
                     style="width: 400px"
-                    placeholder="请输入名称"
+                    placeholder="请输入图书名称进行搜索"
                     clearable
                     size="medium"
                     v-model="name"
