@@ -148,9 +148,6 @@ export default {
     },
 
     methods: {
-        createValidCode(data) {
-            this.validCode = data;
-        },
         register() {
             this.$refs["form"].validate((valid) => {
                 if (valid) {
