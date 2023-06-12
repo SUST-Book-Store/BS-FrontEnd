@@ -31,7 +31,7 @@ export default createStore({
         },
 
         logout(state) {
-            state.user.id = -1;
+            state.user.user_id = -1;
             state.user.username = "请先登录";
             state.user.phone = "";
             state.user.sex = "";
