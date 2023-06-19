@@ -132,8 +132,14 @@
                             <span class="item" v-if="scope.row.status === 1"
                                 >已付款</span
                             >
-                            <span class="item" v-if="scope.row.status === 3">已处理</span>
-                            <span class="item" @click="deleteById(scope.row.orderId)">删除</span>
+                            <span class="item" v-if="scope.row.status === 3"
+                                >已处理</span
+                            >
+                            <span
+                                class="item"
+                                @click="deleteById(scope.row.orderId)"
+                                >删除</span
+                            >
                         </template>
                     </el-table-column>
                 </el-table>
@@ -209,7 +215,7 @@ export default {
                         ElMessage.error(res.data.errorMsg);
                     }
                 }
-            })
+            });
         },
         getByNo() {
             if (this.no.trim().length != 0) {
@@ -221,11 +227,13 @@ export default {
                     })
                     .then((res) => {
                         if (res != null) {
-                            //this.tableData = res.data.data;
-                            this.tableData = [];
-                            this.total = 1;
-                            this.tableData.push(res.data.data);
-                            console.log(this.tableData);
+                            if (res.data.success) {
+                                //this.tableData = res.data.data;
+                                this.tableData = [];
+                                this.total = 1;
+                                this.tableData.push(res.data.data);
+                                console.log(this.tableData);
+                            }
                         }
                     });
             }
